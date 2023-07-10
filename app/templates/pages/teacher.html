@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css' ) }}"
+    />
+    <script
+      src="{{ url_for('static', filename='js/teacher.js') }}"
+      defer
+    ></script>
+  </head>
+  <body>
+    <nav class="sidebar">
+      <div class="sidebar-top">
+        <div class="logo">
+          <img src="../../static/assets/logo.svg" alt="" class="logo-img" />
+          <h1 class="logo-label">Exam.io</h1>
+        </div>
+        <h2 class="sidebar-title">Menu</h2>
+        <ul class="nav-link-list">
+          <a class="nav-link">
+            <img
+              src="../../static/assets/paperclip-active.svg"
+              alt=""
+              class="icon paperclip-icon active"
+            />
+            <h2 class="nav-link-label paperclip-label">Fazer Exame</h2>
+          </a>
+          <a class="nav-link">
+            <img
+              src="../../static/assets/user.svg"
+              alt=""
+              class="icon user-icon"
+            />
+            <h2 class="nav-link-label user-label">Profile</h2>
+          </a>
+        </ul>
+      </div>
+    </nav>
+    <main>
+      <h1 class="main-title">Bom dia, {{current_user.nome}}</h1>
+      <p class="main-subtitle">
+        "O exercício físico, quando obrigatório, não causa danos ao corpo;
+        <br />
+        porém, o conhecimento adquirido sob compulsão não se fixa na mente." -
+        Platão
+      </p>
+      <h2 class="test-creation-title">Crie um novo teste</h2>
+      <div id="question-container" class="questions-creation-list"></div>
+      <div class="question-options-container">
+        <button class="question-options-btn" data-option="multiple-choice">
+          <img src="../../static/assets/multiple-choice.svg" alt="" />
+          Adicionar questão de Múltipla Escolha
+        </button>
+        <button class="question-options-btn" data-option="true-false">
+          <img src="../../static/assets/true-false.svg" alt="" />
+          Adicionar questão V/F
+        </button>
+        <button class="question-options-btn" data-option="numeric-response">
+          <img src="../../static/assets/number.svg" alt="" />
+          Adicionar questão de Resposta Numérica
+        </button>
+      </div>
+      <button id="create-test-btn" class="create-test-btn">Criar Teste</button>
+    </main>
+  </body>
+</html>

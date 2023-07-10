@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Home</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body>
+    <h1>Welcome to Home!</h1>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  </body>
+</html>
+
+<div class="multiple-choice-container">
+  <h3 class="multiple-choice-title">Questão de Múltipla Escolha</h3>
+  <input
+    type="text"
+    name=""
+    class="problem-input"
+    style="word-wrap: break-word"
+    placeholder="Enunciado da questão..."
+  />
+  <div class="choice-container">
+    <input type="radio" name="choice" value="A" id="choice-a" />
+    <label for="choice-a"></label>
+    <input type="text" class="choice-input" placeholder="Alternativa a..." />
+  </div>
+  <div class="choice-container">
+    <input type="radio" name="choice" value="B" id="choice-b" />
+    <label for="choice-b"></label>
+    <input type="text" class="choice-input" placeholder="Alternativa b..." />
+  </div>
+  <div class="choice-container">
+    <input type="radio" name="choice" value="C" id="choice-c" />
+    <label for="choice-c"></label>
+    <input type="text" class="choice-input" placeholder="Alternativa C..." />
+  </div>
+  <div class="choice-container">
+    <input type="radio" name="choice" value="D" id="choice-d" />
+    <label for="choice-d"></label>
+    <input type="text" class="choice-input" placeholder="Alternativa d..." />
+  </div>
+</div>
+<div class="multiple-choice-container">
+  <h3 class="multiple-choice-title">Questão de Verdadeiro ou Falso</h3>
+  <input
+    type="text"
+    name=""
+    class="problem-input"
+    placeholder="Enunciado da questão..."
+  />
+  <div class="choice-container">
+    <!-- Ajeitar o name de cada radio para cada questão colocando o id de cada questão para o radio só ser considerado entre as opções dela -->
+    <input type="radio" name="choice-vf" value="Verdadeiro" id="true" />
+    <label for="true"></label>
+    <input type="text" class="choice-input" value="Verdadeiro" />
+  </div>
+  <div class="choice-container">
+    <input type="radio" name="choice-vf" value="Falso" id="false" />
+    <label for="false"></label>
+    <input type="text" class="choice-input" value="Falso" />
+  </div>
+</div>
+<div class="multiple-choice-container">
+  <h3 class="multiple-choice-title">Questão de Resposta Numérica</h3>
+  <input
+    type="text"
+    name=""
+    class="problem-input"
+    placeholder="Enunciado da questão..."
+  />
+  <input type="number" class="num-choice-input" placeholder="Resposta" />
+</div>
