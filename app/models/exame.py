@@ -7,9 +7,9 @@ class Teste(db.Model):
     professor_matricula = db.Column(db.String(9), db.ForeignKey('user.matricula'), nullable=False)
     duracao = db.Column(db.Integer, nullable=False)  # em minutos
     questoes = db.relationship('Questao', backref='teste', lazy=True)
-    respostas = db.relationship('Resposta', backref='teste', lazy=True)
     ativo = db.Column(db.Boolean, default=True, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    caderno_respostas = db.relationship('CadernoRespostas', backref='testes', lazy=True)
 
 class TipoQuestao(Enum):
     MULTIPLA_ESCOLHA = 'multipla_escolha'
@@ -26,15 +26,26 @@ class Questao(db.Model):
     gabarito = db.Column(db.String(255), nullable=False)
     opcoes = db.relationship('Opcao', backref='questao', lazy=True)
 
-class Resposta(db.Model):
+class CadernoRespostas(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     aluno_matricula = db.Column(db.String(9), db.ForeignKey('user.matricula'), nullable=False)
+    teste_id = db.Column(db.Integer, db.ForeignKey('teste.id'), nullable=False)
+    finalizado = db.Column(db.Boolean, nullable=False, default=False)
+    nota = db.Column(db.Integer, nullable=False, default=0)
+
+    respostas = db.relationship('Resposta', backref='caderno_respostas', lazy=True)
+
+class Resposta(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    caderno_respostas_id = db.Column(db.Integer, db.ForeignKey('caderno_respostas.id'), nullable=False)
     questao_id = db.Column(db.Integer, db.ForeignKey('questao.id'), nullable=False)
     resposta = db.Column(db.Text, nullable=False)
-    teste_id = db.Column(db.Integer, db.ForeignKey('teste.id'), nullable=False)
+    acertou = db.Column(db.Boolean, nullable=False, default=True)
+    questao = db.relationship('Questao', backref='respostas', lazy=True)
 
 class Opcao(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     questao_id = db.Column(db.Integer, db.ForeignKey('questao.id'), nullable=False)
     texto = db.Column(db.Text, nullable=False)
+    letra = db.Column(db.String(1), nullable=False)
     eh_correta = db.Column(db.Boolean, nullable=False)

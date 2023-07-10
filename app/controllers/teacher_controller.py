@@ -41,6 +41,7 @@ def create():
                     questao=nova_questao,
                     texto=alternativa,
                     eh_correta=(choices[i] == question['resposta']),
+                    letra=choices[i]
                 )
                 db.session.add(opcao)
 

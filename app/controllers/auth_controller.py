@@ -37,7 +37,7 @@ def login():
                 if attempted_user.eh_professor:
                     return redirect(url_for("teacher.show"))
                 else:
-                    return redirect(url_for("student.home"))
+                    return redirect(url_for("student.index"))
 
             else:
                 flash(

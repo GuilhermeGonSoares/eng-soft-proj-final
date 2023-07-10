@@ -61,7 +61,7 @@
               class="card-emoji"
             />
             <a
-              href="{{ url_for('student.show', teste_id=teste_info.teste.id) }}"
+              href="{{ url_for('student.show', teste_id=teste_info.teste.id, questao_id=teste_info.teste.questoes[0].id) }}"
             >
               <h3 class="card-title">Eng. de Software</h3>
             </a>
@@ -76,7 +76,27 @@
           {% endfor %}
         </div>
       </section>
-      <h2 class="section-title">Provas Passadas e Desempenho</h2>
+      <section class="exam-section">
+        <h2 class="section-title">Provas Passadas e Desempenho</h2>
+        <div class="exam-cards">
+          {% for teste_info in testes_info_concluidos %}
+
+          <div class="exam-card">
+            <img
+              src="../../static/assets/computer-emoji.svg"
+              alt=""
+              class="card-emoji"
+            />
+            <h3 class="card-title">Eng. de Software</h3>
+            <span class="card-title">NOTA: {{teste_info[1]}}</span>
+
+            <div class="progress">
+              <div class="progress-bar"></div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </section>
     </main>
   </body>
 </html>
