@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <script
+      src="{{ url_for('static', filename='js/student.js') }}"
+      defer
+    ></script>
+  </head>
+  <body>
+    <nav class="sidebar">
+      <div class="sidebar-top">
+        <div class="logo">
+          <img src="../../static/assets/logo.svg" alt="" class="logo-img" />
+          <h1 class="logo-label">Exam.io</h1>
+        </div>
+        <h2 class="sidebar-title">Menu</h2>
+        <ul class="nav-link-list">
+          <a class="nav-link">
+            <img
+              src="../../static/assets/paperclip-active.svg"
+              alt=""
+              class="icon paperclip-icon active"
+            />
+            <h2 class="nav-link-label paperclip-label">Fazer Exame</h2>
+          </a>
+          <a class="nav-link">
+            <img
+              src="../../static/assets/user.svg"
+              alt=""
+              class="icon user-icon"
+            />
+            <h2 class="nav-link-label user-label">Profile</h2>
+          </a>
+        </ul>
+      </div>
+    </nav>
+    <main>
+      <h1 class="main-title">Bom dia, {{current_user.nome}}</h1>
+      <p class="main-subtitle">
+        "O exercício físico, quando obrigatório, não causa danos ao corpo;
+        <br />
+        porém, o conhecimento adquirido sob compulsão não se fixa na mente." -
+        Platão
+      </p>
+      <section class="exam-section">
+        <h2 class="section-title">Provas Disponíveis</h2>
+        <div class="exam-cards">
+          {% for teste_info in testes_info %}
+
+          <div class="exam-card">
+            <img
+              src="../../static/assets/computer-emoji.svg"
+              alt=""
+              class="card-emoji"
+            />
+            <a
+              href="{{ url_for('student.show', teste_id=teste_info.teste.id) }}"
+            >
+              <h3 class="card-title">Eng. de Software</h3>
+            </a>
+            <span class="card-subtitle">{{teste_info.tempo_restante}}</span>
+            <span class="exam-progress"
+              >{{teste_info.questoes_count}} Questões</span
+            >
+            <div class="progress">
+              <div class="progress-bar"></div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </section>
+      <h2 class="section-title">Provas Passadas e Desempenho</h2>
+    </main>
+  </body>
+</html>
