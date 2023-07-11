@@ -10,7 +10,6 @@ optionButtons.forEach((button) => {
 });
 
 let questionIndex = 0; // Índice único para cada questão
-console.log('questionIndex', questionIndex);
 function addQuestion(option) {
   console.log(option);
   // Cria um elemento de div para a questão de múltipla escolha
@@ -87,6 +86,14 @@ function addQuestion(option) {
       // Opção inválida
       break;
   }
+
+  const removeButton = document.createElement('button');
+  removeButton.innerHTML = 'X';
+  removeButton.classList.add('remove-question-btn');
+  removeButton.addEventListener('click', () => {
+    questionContainer.remove(); // Remove a questão quando o botão de remoção for clicado
+  });
+  questionContainer.appendChild(removeButton);
 
   // Adiciona a questão ao container
   const questionContainerElement =
@@ -169,12 +176,21 @@ function createTest() {
     }
   }
 
-  // Enviar as questões para o controller
   fetch('http://localhost:5000/teacher/teste', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ questions }),
-  });
+  })
+    .then((response) => {
+      if (response.redirected) {
+        window.location.href = response.url; // Redireciona para a nova página
+      } else {
+        // Lidar com outras respostas, se necessário
+      }
+    })
+    .catch((error) => {
+      // Lidar com erros de solicitação
+    });
 }

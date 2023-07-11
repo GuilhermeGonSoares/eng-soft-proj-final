@@ -622,3 +622,16 @@ span {
 .choice-container input[type='radio']:checked ~ .choice-input {
   box-shadow: 0 0 0 2px var(--clr-accent-green);
 }
+
+.remove-question-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background-color: gray;
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  border-radius: 50%;
+}
