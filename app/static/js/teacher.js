@@ -185,12 +185,16 @@ function createTest() {
   })
     .then((response) => {
       if (response.redirected) {
-        window.location.href = response.url; // Redireciona para a nova página
+        window.location.href = response.url;
       } else {
-        // Lidar com outras respostas, se necessário
+        response.text().then((error) => {
+          const errorMessage = error;
+          console.error(errorMessage);
+          alert('Erro ao criar o teste: ' + errorMessage);
+        });
       }
     })
     .catch((error) => {
-      // Lidar com erros de solicitação
+      alert('Erro ao criar o teste. Verifique a conexão e tente novamente.');
     });
 }

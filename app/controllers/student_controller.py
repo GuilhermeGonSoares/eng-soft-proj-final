@@ -48,29 +48,25 @@ def descrever_teste(testes_disponiveis):
 
 @bp.route('/prova')
 def index():
-    testes_ativos = Teste.query.filter_by(ativo=True).all()
+    testes = Teste.query.all()
     testes_disponiveis = []
     testes_concluidos = []
-    print(testes_ativos)
-    for teste in testes_ativos:
-        if len(teste.caderno_respostas) == 0:
-            print(teste)
-            testes_disponiveis.append(teste)
-        else:
-            print(teste.caderno_respostas)
-            achou = False
-            for caderno_resposta in teste.caderno_respostas:
-                if caderno_resposta.aluno_matricula == current_user.matricula:
-                    achou = True
-                    if caderno_resposta.finalizado == False:
-                        testes_disponiveis.append(teste)
-                    else:
-                        testes_concluidos.append((teste, caderno_resposta.nota))
-                    break
-            if achou == False:
-                testes_disponiveis.append(teste)
-    
 
+    for teste in testes:
+        caderno_resposta = CadernoRespostas.query.filter_by(
+            aluno_matricula=current_user.matricula,
+            teste_id=teste.id
+            ).first()
+        nota = 0
+        if caderno_resposta:
+            nota = caderno_resposta.nota
+        if teste.ativo == False:
+            testes_concluidos.append((teste, nota))
+        else:
+            if caderno_resposta and caderno_resposta.finalizado:
+                testes_concluidos.append((teste, nota))
+            else:
+                testes_disponiveis.append(teste)
     
     testes_info = descrever_teste(testes_disponiveis)
     

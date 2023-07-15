@@ -1,6 +1,6 @@
 from app import db
 from enum import Enum
-from datetime import datetime
+from datetime import datetime, timedelta
 
 class Teste(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -10,6 +10,16 @@ class Teste(db.Model):
     ativo = db.Column(db.Boolean, default=True, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     caderno_respostas = db.relationship('CadernoRespostas', backref='testes', lazy=True)
+
+def fechar_testes():
+    from app import app
+
+    with app.app_context():
+        testes = Teste.query.filter_by(ativo=True).all()
+        for teste in testes:
+            if (datetime.utcnow() - teste.created_at) > timedelta(minutes=teste.duracao):
+                teste.ativo = False
+                db.session.commit()
 
 class TipoQuestao(Enum):
     MULTIPLA_ESCOLHA = 'multipla_escolha'

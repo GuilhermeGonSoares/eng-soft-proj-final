@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for
 from flask_login import current_user
-from flask import request
+from flask import request, abort
 from ..models import *
 from app import db
 
@@ -14,6 +14,8 @@ def show():
 def create():
     data = request.get_json()
     questions = data['questions']
+    if len(questions) == 0:
+        abort(400, "A lista de perguntas está vazia.")
 
     teste = Teste(
         professor_matricula=current_user.matricula,
