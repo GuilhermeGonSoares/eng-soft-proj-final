@@ -19,7 +19,20 @@ function addQuestion(option) {
   switch (option) {
     case 'multiple-choice':
       questionContainer.innerHTML = `
-        <h3 class="multiple-choice-title">Questão de Múltipla Escolha</h3>
+      <div class="question-header">
+      <h3 class="multiple-choice-title">Questão de Múltipla Escolha</h3>
+      <div class="question-settings">
+        <input
+          type="text"
+          class="problem-input"
+          placeholder="Pontuação da questão" />
+        <button class="remove-question-btn">
+          <img
+            src="assets/trash-empty.svg"
+            alt="" />
+        </button>
+      </div>
+    </div>
         <input
           type="text"
           name=""
@@ -51,7 +64,20 @@ function addQuestion(option) {
       break;
     case 'true-false':
       questionContainer.innerHTML = `
-        <h3 class="multiple-choice-title">Questão de Verdadeiro ou Falso</h3>
+      <div class="question-header">
+      <h3 class="multiple-choice-title">Questão de Verdadeiro ou Falso</h3>
+      <div class="question-settings">
+        <input
+          type="text"
+          class="problem-input"
+          placeholder="Pontuação da questão" />
+        <button class="remove-question-btn">
+          <img
+            src="assets/trash-empty.svg"
+            alt="" />
+        </button>
+      </div>
+    </div>
         <input
           type="text"
           name=""
@@ -72,7 +98,20 @@ function addQuestion(option) {
       break;
     case 'numeric-response':
       questionContainer.innerHTML = `
-        <h3 class="multiple-choice-title">Questão de Resposta Numérica</h3>
+      <div class="question-header">
+      <h3 class="multiple-choice-title">Questão de Resposta Numérica</h3>
+      <div class="question-settings">
+        <input
+          type="text"
+          class="problem-input"
+          placeholder="Pontuação da questão" />
+        <button class="remove-question-btn">
+          <img
+            src="assets/trash-empty.svg"
+            alt="" />
+        </button>
+      </div>
+    </div>
         <input
           type="text"
           name=""
@@ -96,8 +135,7 @@ function addQuestion(option) {
   questionContainer.appendChild(removeButton);
 
   // Adiciona a questão ao container
-  const questionContainerElement =
-    document.getElementById('question-container');
+  const questionContainerElement = document.getElementById('question-container');
   questionContainerElement.appendChild(questionContainer);
 
   questionIndex++; // Incrementa o índice único para a próxima questão
@@ -109,15 +147,11 @@ createTestBtn.addEventListener('click', createTest);
 
 // Função para criar o teste
 function createTest() {
-  const questionContainers = document.querySelectorAll(
-    '.multiple-choice-container'
-  );
+  const questionContainers = document.querySelectorAll('.multiple-choice-container');
   const questions = [];
 
   for (const questionContainer of questionContainers) {
-    const titleElement = questionContainer.querySelector(
-      '.multiple-choice-title'
-    );
+    const titleElement = questionContainer.querySelector('.multiple-choice-title');
 
     if (titleElement.textContent === 'Questão de Múltipla Escolha') {
       // Questão de Múltipla Escolha
@@ -131,9 +165,7 @@ function createTest() {
         alternativas.push(texto);
       }
 
-      const resposta = questionContainer.querySelector(
-        'input[name^="choice"]:checked'
-      ).value;
+      const resposta = questionContainer.querySelector('input[name^="choice"]:checked').value;
 
       const question = {
         tipo: 'multipla_escolha',
@@ -148,9 +180,7 @@ function createTest() {
       const enunciado = questionContainer.querySelector('.problem-input').value;
       const alternativas = ['Verdadeiro', 'Falso'];
 
-      const resposta = questionContainer.querySelector(
-        'input[name^="choice-vf"]:checked'
-      ).value;
+      const resposta = questionContainer.querySelector('input[name^="choice-vf"]:checked').value;
 
       const question = {
         tipo: 'verdadeiro_falso',
@@ -163,8 +193,7 @@ function createTest() {
     } else if (titleElement.textContent === 'Questão de Resposta Numérica') {
       // Questão de Resposta Numérica
       const enunciado = questionContainer.querySelector('.problem-input').value;
-      const resposta =
-        questionContainer.querySelector('.num-choice-input').value;
+      const resposta = questionContainer.querySelector('.num-choice-input').value;
 
       const question = {
         tipo: 'discursiva',

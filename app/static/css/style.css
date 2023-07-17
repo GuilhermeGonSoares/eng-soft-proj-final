@@ -635,3 +635,127 @@ span {
   font-size: 0.75rem;
   border-radius: 50%;
 }
+
+.exam-grid {
+  display: grid;
+  grid-template-columns: 3fr max-content;
+  gap: 2rem;
+
+  border: 1px solid var(--clr-stroke);
+  border-radius: 1.75rem;
+  padding: 1.5rem;
+}
+
+.test-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 3rem;
+}
+
+.test-icons-container {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.test-icon {
+  transition: filter 0.2s ease-in-out;
+}
+
+.test-icon:hover {
+  cursor: pointer;
+  filter: brightness(0.8);
+}
+
+.test-settings-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.test-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 1rem;
+}
+
+.header-btns {
+  display: flex;
+  gap: 1rem;
+}
+
+.create-test-btn {
+  font-weight: var(--fw-medium);
+  color: var(--clr-text-primary);
+  background-color: var(--clr-accent-green);
+  border: none;
+  border-radius: 0.75rem;
+  padding: 0.625rem 1rem;
+}
+
+.open-test-btn {
+  font-weight: var(--fw-medium);
+  color: var(--clr-text-primary);
+  background-color: var(--clr-accent-blue);
+  border: none;
+  border-radius: 0.75rem;
+  padding: 0.625rem 1rem;
+}
+
+.close-test-btn {
+  font-weight: var(--fw-medium);
+  color: var(--clr-text-primary);
+  background-color: var(--clr-accent-orange);
+  border: none;
+  border-radius: 0.75rem;
+  padding: 0.625rem 1rem;
+}
+
+.open-test-btn,
+.close-test-btn,
+.create-test-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  transition: filter 0.2s ease-in-out;
+}
+
+.open-test-btn:hover,
+.close-test-btn:hover,
+.remove-question-btn:hover,
+.create-test-btn:hover {
+  cursor: pointer;
+  filter: brightness(0.8);
+}
+
+.tests-container {
+  border: 1px solid var(--clr-stroke);
+  border-radius: 1.5rem;
+  padding: 1.5rem 1.5rem 0 1.5rem;
+  height: max-content;
+}
+
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.remove-question-btn {
+  display: grid;
+  place-items: center;
+  font-weight: var(--fw-medium);
+  color: var(--clr-text-primary);
+  /* background color as --clr-accent-orange with 70% opacity */
+  background-color: var(--clr-accent-orange);
+  border: none;
+  border-radius: 1rem;
+  padding: 0.75rem 1rem;
+  transition: filter 0.2s ease-in-out;
+}
+
+.question-settings {
+  display: flex;
+  gap: 1rem;
+}
