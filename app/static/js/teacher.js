@@ -25,10 +25,11 @@ function addQuestion(option) {
         <input
           type="text"
           class="problem-input"
+          id="pontuacao"
           placeholder="Pontuação da questão" />
         <button class="remove-question-btn">
           <img
-            src="assets/trash-empty.svg"
+            src="../../static/assets/trash-empty.svg"
             alt="" />
         </button>
       </div>
@@ -36,6 +37,7 @@ function addQuestion(option) {
         <input
           type="text"
           name=""
+          id="enunciado"
           class="problem-input"
           style="word-wrap: break-word"
           placeholder="Enunciado da questão..."
@@ -70,10 +72,11 @@ function addQuestion(option) {
         <input
           type="text"
           class="problem-input"
+          id="pontuacao"
           placeholder="Pontuação da questão" />
         <button class="remove-question-btn">
           <img
-            src="assets/trash-empty.svg"
+            src="../../static/assets/trash-empty.svg"
             alt="" />
         </button>
       </div>
@@ -81,6 +84,7 @@ function addQuestion(option) {
         <input
           type="text"
           name=""
+          id="enunciado"
           class="problem-input"
           placeholder="Enunciado da questão..."
         />
@@ -104,10 +108,11 @@ function addQuestion(option) {
         <input
           type="text"
           class="problem-input"
+          id="pontuacao"
           placeholder="Pontuação da questão" />
         <button class="remove-question-btn">
           <img
-            src="assets/trash-empty.svg"
+            src="../../static/assets/trash-empty.svg"
             alt="" />
         </button>
       </div>
@@ -115,6 +120,7 @@ function addQuestion(option) {
         <input
           type="text"
           name=""
+          id="enunciado"
           class="problem-input"
           placeholder="Enunciado da questão..."
         />
@@ -126,36 +132,44 @@ function addQuestion(option) {
       break;
   }
 
-  const removeButton = document.createElement('button');
-  removeButton.innerHTML = 'X';
-  removeButton.classList.add('remove-question-btn');
-  removeButton.addEventListener('click', () => {
-    questionContainer.remove(); // Remove a questão quando o botão de remoção for clicado
-  });
-  questionContainer.appendChild(removeButton);
-
   // Adiciona a questão ao container
-  const questionContainerElement = document.getElementById('question-container');
+  const questionContainerElement =
+    document.getElementById('question-container');
   questionContainerElement.appendChild(questionContainer);
+
+  const removeButton = questionContainer.querySelector('.remove-question-btn');
+
+  // Adiciona um eventListener ao botão de remoção
+  removeButton.addEventListener('click', () => {
+    // Remove o questionContainer do questionContainerElement
+    questionContainerElement.removeChild(questionContainer);
+  });
 
   questionIndex++; // Incrementa o índice único para a próxima questão
 }
 
-// Evento de clique no botão "Criar Teste"
-const createTestBtn = document.getElementById('create-test-btn');
-createTestBtn.addEventListener('click', createTest);
-
 // Função para criar o teste
 function createTest() {
-  const questionContainers = document.querySelectorAll('.multiple-choice-container');
+  const questionContainers = document.querySelectorAll(
+    '.multiple-choice-container'
+  );
+
+  const nomeTeste = document.getElementById('nome-teste').value;
+  const duracao = document.getElementById('duracao').value;
+  console.log(nomeTeste);
+  console.log(duracao);
+
   const questions = [];
 
   for (const questionContainer of questionContainers) {
-    const titleElement = questionContainer.querySelector('.multiple-choice-title');
+    const titleElement = questionContainer.querySelector(
+      '.multiple-choice-title'
+    );
 
     if (titleElement.textContent === 'Questão de Múltipla Escolha') {
       // Questão de Múltipla Escolha
-      const enunciado = questionContainer.querySelector('.problem-input').value;
+      const enunciado = questionContainer.querySelector('#enunciado').value;
+      const pontuacao = questionContainer.querySelector('#pontuacao').value;
 
       const alternativas = [];
       const choices = questionContainer.querySelectorAll('.choice-container');
@@ -165,40 +179,50 @@ function createTest() {
         alternativas.push(texto);
       }
 
-      const resposta = questionContainer.querySelector('input[name^="choice"]:checked').value;
+      const resposta = questionContainer.querySelector(
+        'input[name^="choice"]:checked'
+      ).value;
 
       const question = {
         tipo: 'multipla_escolha',
         enunciado,
         alternativas,
         resposta,
+        pontuacao,
       };
 
       questions.push(question);
     } else if (titleElement.textContent === 'Questão de Verdadeiro ou Falso') {
       // Questão de Verdadeiro ou Falso
-      const enunciado = questionContainer.querySelector('.problem-input').value;
+      const enunciado = questionContainer.querySelector('#enunciado').value;
+      const pontuacao = questionContainer.querySelector('#pontuacao').value;
       const alternativas = ['Verdadeiro', 'Falso'];
 
-      const resposta = questionContainer.querySelector('input[name^="choice-vf"]:checked').value;
+      const resposta = questionContainer.querySelector(
+        'input[name^="choice-vf"]:checked'
+      ).value;
 
       const question = {
         tipo: 'verdadeiro_falso',
         enunciado,
         alternativas,
         resposta,
+        pontuacao,
       };
 
       questions.push(question);
     } else if (titleElement.textContent === 'Questão de Resposta Numérica') {
       // Questão de Resposta Numérica
-      const enunciado = questionContainer.querySelector('.problem-input').value;
-      const resposta = questionContainer.querySelector('.num-choice-input').value;
+      const enunciado = questionContainer.querySelector('#enunciado').value;
+      const pontuacao = questionContainer.querySelector('#pontuacao').value;
+      const resposta =
+        questionContainer.querySelector('.num-choice-input').value;
 
       const question = {
         tipo: 'discursiva',
         enunciado,
         resposta,
+        pontuacao,
       };
 
       questions.push(question);
@@ -210,7 +234,7 @@ function createTest() {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ questions }),
+    body: JSON.stringify({ questions, nomeTeste, duracao }),
   })
     .then((response) => {
       if (response.redirected) {
@@ -227,3 +251,55 @@ function createTest() {
       alert('Erro ao criar o teste. Verifique a conexão e tente novamente.');
     });
 }
+
+function validateTest() {
+  const questionContainers = document.querySelectorAll(
+    '.multiple-choice-container'
+  );
+  const nomeTeste = document.getElementById('nome-teste').value;
+  const duracao = document.getElementById('duracao').value;
+
+  if (!nomeTeste || !duracao) {
+    alert('Por favor, preencha o nome e a duração do teste.');
+    return false;
+  }
+
+  for (const questionContainer of questionContainers) {
+    const enunciado = questionContainer.querySelector('#enunciado').value;
+    const pontuacao = questionContainer.querySelector('#pontuacao').value;
+
+    if (!enunciado || !pontuacao) {
+      alert(
+        'Por favor, preencha o enunciado e a pontuação para todas as questões.'
+      );
+      return false;
+    }
+
+    const choices = questionContainer.querySelectorAll('.choice-container');
+    for (const choice of choices) {
+      const texto = choice.querySelector('.choice-input').value;
+      if (!texto) {
+        alert('Por favor, preencha todas as alternativas.');
+        return false;
+      }
+    }
+
+    const resposta = questionContainer.querySelector(
+      'input[type="radio"]:checked'
+    );
+    if (!resposta) {
+      alert('Por favor, selecione a resposta correta para todas as questões.');
+      return false;
+    }
+  }
+
+  return true;
+}
+
+// Evento de clique no botão "Criar Teste"
+const createTestBtn = document.getElementById('create-test-btn');
+createTestBtn.addEventListener('click', () => {
+  if (validateTest()) {
+    createTest();
+  }
+});

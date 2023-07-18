@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from flask_login import current_user
+from flask_login import current_user, login_required
 from datetime import datetime, timedelta
 from ..models import Teste, Questao, User, Resposta, CadernoRespostas
 from app import db
@@ -47,6 +47,7 @@ def descrever_teste(testes_disponiveis):
 
 
 @bp.route('/prova')
+@login_required
 def index():
     testes = Teste.query.all()
     testes_disponiveis = []
@@ -77,6 +78,7 @@ def index():
 
 
 @bp.route('/prova/<int:teste_id>/questao/<int:questao_id>', methods=['GET', 'POST'])
+@login_required
 def show(teste_id, questao_id):
     matricula = current_user.matricula
     
@@ -118,7 +120,7 @@ def show(teste_id, questao_id):
             nota = 0
             for res in todas_respostas:
                 if res.acertou:
-                    nota += res.questao.pontuacao
+                    nota += int(res.questao.pontuacao)
             
             caderno_respostas.finalizado = True
             caderno_respostas.nota = nota

@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
@@ -24,6 +24,9 @@ def create_app():
     bcrypt.init_app(app)
     login_manager.init_app(app)
 
+    with app.app_context():
+        db.create_all()
+
     from .controllers import blueprints
 
     for bp in blueprints():
@@ -33,3 +36,8 @@ def create_app():
 
 
 app = create_app()
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return redirect(url_for("auth.login"))

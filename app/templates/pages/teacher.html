@@ -2,25 +2,22 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='css/style.css' ) }}" />
+      href="{{ url_for('static', filename='css/style.css' ) }}"
+    />
     <script
       src="{{ url_for('static', filename='js/teacher.js') }}"
-      defer></script>
+      defer
+    ></script>
   </head>
   <body>
     <nav class="sidebar">
       <div class="sidebar-top">
         <div class="logo">
-          <img
-            src="../../static/assets/logo.svg"
-            alt=""
-            class="logo-img" />
+          <img src="../../static/assets/logo.svg" alt="" class="logo-img" />
           <h1 class="logo-label">Exam.io</h1>
         </div>
         <h2 class="sidebar-title">Menu</h2>
@@ -29,14 +26,16 @@
             <img
               src="../../static/assets/paperclip-active.svg"
               alt=""
-              class="icon paperclip-icon active" />
+              class="icon paperclip-icon active"
+            />
             <h2 class="nav-link-label paperclip-label">Fazer Exame</h2>
           </a>
           <a class="nav-link">
             <img
               src="../../static/assets/user.svg"
               alt=""
-              class="icon user-icon" />
+              class="icon user-icon"
+            />
             <h2 class="nav-link-label user-label">Profile</h2>
           </a>
         </ul>
@@ -47,50 +46,45 @@
       <p class="main-subtitle">
         "O exercício físico, quando obrigatório, não causa danos ao corpo;
         <br />
-        porém, o conhecimento adquirido sob compulsão não se fixa na mente." - Platão
+        porém, o conhecimento adquirido sob compulsão não se fixa na mente." -
+        Platão
       </p>
       <div class="exam-grid">
         <div class="questions-creation-list">
           <div class="test-header">
             <h2 class="test-creation-title">Crie um novo teste</h2>
             <div class="header-btns">
-              <button
-                id="create-test-btn"
-                class="create-test-btn">
-                <img
-                  src="assets/plus.svg"
-                  alt="" />
+              <button id="create-test-btn" class="create-test-btn">
+                <img src="../../static/assets/plus.svg" alt="" />
                 Criar Novo Teste
               </button>
               <button class="open-test-btn">
                 Abrir Teste
-                <img
-                  src="assets/chevron-right-white.svg"
-                  alt="" />
+                <img src="../../static/assets/chevron-right-white.svg" alt="" />
               </button>
               <button class="close-test-btn">
                 Fechar Teste
-                <img
-                  src="assets/chevron-right-white.svg"
-                  alt="" />
+                <img src="../../static/assets/chevron-right-white.svg" alt="" />
               </button>
             </div>
           </div>
           <div class="test-settings-container">
             <input
               type="text"
+              id="nome-teste"
               class="choice-input"
-              placeholder="Nome do Teste" />
+              placeholder="Nome do Teste"
+            />
             <input
               type="text"
+              id="duracao"
               class="choice-input"
-              placeholder="Duração do teste em minutos" />
+              placeholder="Duração do teste em minutos"
+            />
           </div>
           <div class="tests-container">
             <div class="questions-header">
-              <img
-                src="assets/file-emoji.svg"
-                alt="" />
+              <img src="../../static/assets/file-emoji.svg" alt="" />
               <h1 class="questions-title">Testes</h1>
             </div>
             <ul class="questions-list">
@@ -98,44 +92,34 @@
                 <span class="question">BDD • Capítulo 6</span>
                 <div class="test-icons-container">
                   <img
-                    src="assets/trash.svg"
+                    src="../../static/assets/trash.svg"
                     alt=""
-                    class="test-icon" />
+                    class="test-icon"
+                  />
                   <img
-                    src="assets/download.svg"
+                    src="../../static/assets/download.svg"
                     alt=""
-                    class="test-icon" />
+                    class="test-icon"
+                  />
                 </div>
               </li>
             </ul>
           </div>
         </div>
       </div>
-      <!-- <h2 class="test-creation-title">Crie um novo teste</h2>
-      <div id="question-container" class="questions-creation-list"></div> -->
+      <h2 class="test-creation-title">Crie um novo teste</h2>
+      <div id="question-container" class="questions-creation-list"></div>
       <div class="question-options-container">
-        <button
-          class="question-options-btn"
-          data-option="multiple-choice">
-          <img
-            src="../../static/assets/multiple-choice.svg"
-            alt="" />
+        <button class="question-options-btn" data-option="multiple-choice">
+          <img src="../../static/assets/multiple-choice.svg" alt="" />
           Adicionar questão de Múltipla Escolha
         </button>
-        <button
-          class="question-options-btn"
-          data-option="true-false">
-          <img
-            src="../../static/assets/true-false.svg"
-            alt="" />
+        <button class="question-options-btn" data-option="true-false">
+          <img src="../../static/assets/true-false.svg" alt="" />
           Adicionar questão V/F
         </button>
-        <button
-          class="question-options-btn"
-          data-option="numeric-response">
-          <img
-            src="../../static/assets/number.svg"
-            alt="" />
+        <button class="question-options-btn" data-option="numeric-response">
+          <img src="../../static/assets/number.svg" alt="" />
           Adicionar questão de Resposta Numérica
         </button>
       </div>

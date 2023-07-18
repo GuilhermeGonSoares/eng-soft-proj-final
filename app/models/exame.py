@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 
 class Teste(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(150))
     professor_matricula = db.Column(db.String(9), db.ForeignKey('user.matricula'), nullable=False)
     duracao = db.Column(db.Integer, nullable=False)  # em minutos
     questoes = db.relationship('Questao', backref='teste', lazy=True)
