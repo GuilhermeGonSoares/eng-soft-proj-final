@@ -61,3 +61,6 @@ O projeto conta com diversas telas que facilitam a interação dos usuários com
 ```shell
     http://localhost:5000/
 ```
+
+6. As matrículas destinadas para os professores são:
+999999999, 888888888, 777777777
