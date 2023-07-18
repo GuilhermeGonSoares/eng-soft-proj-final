@@ -26,18 +26,18 @@ O projeto ES.UnB 2023/1 é uma aplicação web desenvolvida para auxiliar profes
 O projeto conta com diversas telas que facilitam a interação dos usuários com o sistema:
 
 1. **Tela de Login e Registro:** Os usuários podem acessar a plataforma por meio desta tela, utilizando suas credenciais de login.
-   [Imgur](https://imgur.com/tynuD8n)
-   [Imgur](https://imgur.com/WYiUkCv)
-   [Imgur](https://imgur.com/PmjIiQo)
-   [Imgur](https://imgur.com/3hvtJL0)
+<img src="https://imgur.com/tynuD8n" alt="Captura de tela da interface de login">
+<img src="https://imgur.com/WYiUkCv" alt="Captura de tela da interface de registro">
+<img src="https://imgur.com/PmjIiQo" alt="Captura de tela da interface de login">
+<img src="https://imgur.com/3hvtJL0" alt="Captura de tela da interface de registro">
 
-2. **Tela de Gerenciamento do Professor:** Permite aos professores cadastrar novas questões de diferentes tipos para compor os exames, além de abrir e fechar exames, apagar exames criados e fazer o download do relatório dos alunos em cada exame.
+3. **Tela de Gerenciamento do Professor:** Permite aos professores cadastrar novas questões de diferentes tipos para compor os exames, além de abrir e fechar exames, apagar exames criados e fazer o download do relatório dos alunos em cada exame.
    [Imgur](https://imgur.com/OFAjvQo)
 
-3. **Tela de Realização do Exame:** Os estudantes realizam os exames, respondendo às questões propostas.
+4. **Tela de Realização do Exame:** Os estudantes realizam os exames, respondendo às questões propostas.
    [Imgur](https://imgur.com/srwvGUy)
 
-4. **Tela Home do Aluno:** Visualização das avaliações disponíveis, futuras e passadas pelo aluno. Houveram mudanças nessa tela e a parte de baixo armazena as provas passadas enquanto o carrossel acima armazena as provas atuais e futuras.
+5. **Tela Home do Aluno:** Visualização das avaliações disponíveis, futuras e passadas pelo aluno. Houveram mudanças nessa tela e a parte de baixo armazena as provas passadas enquanto o carrossel acima armazena as provas atuais e futuras.
    [Imgur](https://imgur.com/tynuD8n)
 
 # Passo a Passo para rodar o Projeto
