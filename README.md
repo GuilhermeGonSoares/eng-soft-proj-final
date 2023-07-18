@@ -17,3 +17,7 @@
 ```shell
     python run.py
 ```
+5. Rodar o projeto no navegador utilizando a seguinte URL:
+```shell
+    http://localhost:5000/
+```
