@@ -10,12 +10,25 @@ db = SQLAlchemy()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
 
+def seed():
+    from .models.user import MatriculaProfessor
+    matriculas = ["999999999", "888888888", "777777777"]
+
+    for matricula in matriculas:
+        matricula_exist = MatriculaProfessor.query.filter_by(matricula=matricula).first()
+        if not matricula_exist:
+            professor = MatriculaProfessor(matricula=matricula)
+            db.session.add(professor)
+
+    db.session.commit()
+
+
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
     from .models.exame import fechar_testes
-
+    
     scheduler = BackgroundScheduler()
     scheduler.add_job(func=fechar_testes, trigger="interval", minutes=1)
     scheduler.start()
@@ -26,6 +39,7 @@ def create_app():
 
     with app.app_context():
         db.create_all()
+        seed()
 
     from .controllers import blueprints
 
