@@ -26,7 +26,7 @@ O projeto ES.UnB 2023/1 é uma aplicação web desenvolvida para auxiliar profes
 O projeto conta com diversas telas que facilitam a interação dos usuários com o sistema:
 
 1. **Tela de Login e Registro:** Os usuários podem acessar a plataforma por meio desta tela, utilizando suas credenciais de login.
-   [Imgur](https://imgur.com/LQogE9P)
+   <blockquote class="imgur-embed-pub" lang="en" data-id="tynuD8n"><a href="https://imgur.com/tynuD8n">View post on imgur.com</a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
    [Imgur](https://imgur.com/WYiUkCv)
    [Imgur](https://imgur.com/PmjIiQo)
    [Imgur](https://imgur.com/3hvtJL0)
