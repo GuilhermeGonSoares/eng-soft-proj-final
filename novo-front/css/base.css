@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  --clr-accent: #0b6655;
+  --clr-bg: #f9f9f9;
+  --clr-stroke: #d9d9d9;
+  --clr-white: #fff;
+  --clr-danger: #f44336;
+
+  --clr-text-primary: #212529;
+  --clr-text-secondary: #495057;
+  --clr-text-tertiary: #afb2b4;
+}
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style-type: none;
+  outline: none;
+  font: inherit;
+}
+
+@media (max-width: 1080px) {
+  html {
+    font-size: 93.75%;
+  }
+}
+
+@media (max-width: 720px) {
+  html {
+    font-size: 87.5%;
+  }
+}
+
+body {
+  color: var(--clr-text-primary);
+  background-color: var(--clr-bg);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+}
+
+/* General Styling */
+
+button {
+  border: none;
+  background-color: transparent;
+
+  transition: filter 0.2s ease-in-out;
+}
+
+button:hover {
+  filter: brightness(0.9);
+  cursor: pointer;
+}
+
+nav {
+  background-color: #fff;
+  padding: 2rem 2rem 0 2rem;
+}
+
+.nav-header {
+  display: flex;
+  justify-content: space-between;
+
+  margin-bottom: 1.5rem;
+}
+
+.nav-title {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--clr-text-primary);
+  transition: color 0.2s;
+
+  display: block;
+}
+
+.nav-description {
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--clr-text-secondary);
+  transition: color 0.2s;
+}
+
+.btn-new-test {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  border: none;
+
+  padding: 0.375rem 1rem;
+  border-radius: 0.375rem;
+  background-color: var(--clr-accent);
+  color: #fff;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: filter 0.2s;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn-logout {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  padding: 0.375rem 1rem;
+  border-radius: 0.375rem;
+  border: 1px solid var(--clr-accent);
+  background: var(--clr-white);
+  color: var(--clr-accent);
+  font-weight: 500;
+  font-size: 1rem;
+  transition: filter 0.2s;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+}
+
+.nav-link {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--clr-text-tertiary);
+
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: var(--clr-text-secondary);
+  cursor: pointer;
+}
+
+.nav-link.active {
+  color: var(--clr-accent);
+}
+
+.nav-link.active::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: var(--clr-accent);
+  margin-top: 0.25rem;
+}
+
+main {
+  padding: 2rem;
+}

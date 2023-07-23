@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="../css/building.css" />
+    <script
+      src="../js/building.js"
+      defer></script>
+  </head>
+  <body>
+    <nav>
+      <div class="nav-header">
+        <div class="logo">
+          <img
+            src="assets/layers.svg"
+            alt="" />
+          Exam
+        </div>
+        <button class="btn-new-test">
+          <img
+            src="assets/plus.svg"
+            alt="" />
+          Novo Teste
+        </button>
+      </div>
+      <ul class="nav-links">
+        <li class="nav-link active">Meus Testes</li>
+        <li class="nav-link">Rascunho</li>
+      </ul>
+    </nav>
+    <main>
+      <!-- Configurar um Novo Teste -->
+      <!-- <div class="form-container">
+        <h3 class="form-title">Configure um Novo Teste</h3>
+        <p class="form-description">Preencha as informações básicas sobre o teste</p>
+        <div class="form-group">
+          <div class="input-container">
+            <label
+              for="nome"
+              class="input-label"
+              >Nome <span class="red">*</span></label
+            >
+            <input
+              type="text"
+              name="nome"
+              id="nome"
+              placeholder="Teste Capítulo 5"
+              class="input-field" />
+          </div>
+          <div class="input-container">
+            <label
+              for="materia"
+              class="input-label"
+              >Matéria <span class="red">*</span></label
+            >
+            <input
+              type="text"
+              name="materia"
+              id="materia"
+              placeholder="ex. Engenharia de Software"
+              class="input-field" />
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-container">
+            <label
+              for="duracao"
+              class="input-label"
+              >Duração <span class="red">*</span></label
+            >
+            <input
+              type="text"
+              name="duracao"
+              id="duracao"
+              placeholder="Duração em Minutos"
+              class="input-field" />
+          </div>
+          <div class="input-container">
+            <label
+              for="data"
+              class="input-label"
+              >Data <span class="red">*</span></label
+            >
+            <input
+              type="date"
+              name="data"
+              id="data"
+              placeholder="23/05/2002"
+              class="input-field" />
+          </div>
+        </div>
+        <div class="input-container">
+          <label
+            for="descricao"
+            class="input-label"
+            >Descrição
+          </label>
+          <textarea
+            name="descricao"
+            id="descricao"
+            cols="30"
+            rows="5"
+            placeholder="Descreva o teste aqui..."
+            class="input-field"></textarea>
+        </div>
+        <div class="actions">
+          <button class="btn-outline">Cancelar</button>
+          <button class="btn-primary">Salvar e Continuar</button>
+        </div>
+      </div> -->
+      <!-- Fim da Área de Configuração do teste -->
+
+      <!-- Criação das Questões -->
+      <div class="steps">
+        <div class="step active">
+          <div class="step-number">1</div>
+          <div class="step-title">Configurações</div>
+        </div>
+        <img
+          src="assets/arrow-right.svg"
+          alt=""
+          class="arrow" />
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-title">Questões</div>
+        </div>
+        <img
+          src="assets/arrow-right.svg"
+          alt=""
+          class="arrow" />
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-title">Publicar</div>
+        </div>
+      </div>
+      <div class="form-container">
+        <h3 class="form-title">Crie Questões para o seu Teste</h3>
+        <p class="form-description">Adiciona as questões para o teste</p>
+        <div class="questions"></div>
+        <div class="flex-group">
+          <button
+            class="btn-new-test"
+            id="addQuestion">
+            <img
+              src="assets/plus.svg"
+              alt="" />Nova Questão
+          </button>
+          <button
+            class="btn-delete-question"
+            id="deleteQuestion">
+            Excluir Questão
+          </button>
+        </div>
+        <div class="actions">
+          <button class="btn-outline">Cancelar</button>
+          <button class="btn-primary">Salvar e Continuar</button>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
