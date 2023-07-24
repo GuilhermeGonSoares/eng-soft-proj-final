@@ -1,0 +1,57 @@
+{% extends 'base.html' %} {% block css %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/building.css') }}"
+/>
+{% endblock %} {% block content %}
+<!-- Configurar um Novo Teste -->
+<div class="steps">
+  <div class="step {{ 'active' if step == 1 else '' }}">
+    <div class="step-number">1</div>
+    <div class="step-title">Configurações</div>
+  </div>
+  <img src="assets/arrow-right.svg" alt="" class="arrow" />
+  <div class="step {{ 'active' if step == 2 else '' }}">
+    <div class="step-number">2</div>
+    <div class="step-title">Questões</div>
+  </div>
+  <img src="assets/arrow-right.svg" alt="" class="arrow" />
+</div>
+<div class="form-container">
+  <h3 class="form-title">Configure um Novo Teste</h3>
+  <p class="form-description">Preencha as informações básicas sobre o teste</p>
+  <form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+      <div class="input-container">
+        {{ form.nome.label }} <span class="red">*</span>
+        {{ form.nome(class="input-field") }}
+      </div>
+      <div class="input-container">
+        {{ form.materia.label }} <span class="red">*</span>
+        {{ form.materia(class="input-field", disabled=true) }}
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="input-container">
+        {{ form.duracao.label }} <span class="red">*</span>
+        {{ form.duracao(class="input-field") }}
+      </div>
+      <div class="input-container">
+        {{ form.data.label }} <span class="red">*</span>
+        {{ form.data(class="input-field") }}
+      </div>
+    </div>
+    <div class="input-container">
+      {{ form.descricao.label }} {{ form.descricao(class="input-field") }}
+    </div>
+    <div class="actions">
+      <a href="{{ url_for('teacher.show') }}" class="btn-outline">Cancelar</a>
+      {{ form.submit(class="btn-primary") }}
+    </div>
+  </form>
+</div>
+<!-- Fim da Área de Configuração do teste -->
+{% endblock%} {% block scripts %}
+<script src="{{ url_for('static', filename='js/building.js') }}" defer></script>
+{% endblock %}

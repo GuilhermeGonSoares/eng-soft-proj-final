@@ -2,24 +2,33 @@ from app import db
 from enum import Enum
 from datetime import datetime, timedelta
 
+class StatusTeste(Enum):
+    PENDENTE = "pendente"
+    ABERTO = "aberto"
+    FECHADO = "fechado"
+
+
 class Teste(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(150))
     professor_matricula = db.Column(db.String(9), db.ForeignKey('user.matricula'), nullable=False)
+    nota = db.Column(db.Integer, nullable=True)
     duracao = db.Column(db.Integer, nullable=False)  # em minutos
-    questoes = db.relationship('Questao', backref='teste', lazy=True)
-    ativo = db.Column(db.Boolean, default=True, nullable=False)
+    questoes = db.relationship('Questao', backref='teste', lazy=True, cascade="all, delete-orphan")
+    status = db.Column(db.Enum(StatusTeste), default=StatusTeste.PENDENTE, nullable=False)
+    abertura = db.Column(db.DateTime, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     caderno_respostas = db.relationship('CadernoRespostas', backref='testes', lazy=True)
+    descricao = db.Column(db.Text, nullable=False)
 
 def fechar_testes():
     from app import app
 
     with app.app_context():
-        testes = Teste.query.filter_by(ativo=True).all()
+        testes = Teste.query.filter_by(status=StatusTeste.ABERTO).all()
         for teste in testes:
             if (datetime.utcnow() - teste.created_at) > timedelta(minutes=teste.duracao):
-                teste.ativo = False
+                teste.status = StatusTeste.FECHADO
                 db.session.commit()
 
 class TipoQuestao(Enum):
@@ -30,12 +39,20 @@ class TipoQuestao(Enum):
 
 class Questao(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(255), nullable=False)
     teste_id = db.Column(db.Integer, db.ForeignKey('teste.id'), nullable=False)
     tipo = db.Column(db.String(20), nullable=False)  # 'multipla_escolha', 'verdadeiro_falso', 'discursiva'
     pontuacao = db.Column(db.Integer, nullable=False)
     texto = db.Column(db.Text, nullable=False)
-    gabarito = db.Column(db.String(255), nullable=False)
-    opcoes = db.relationship('Opcao', backref='questao', lazy=True)
+    gabarito = db.Column(db.String(255), nullable=True)
+    opcoes = db.relationship('Opcao', backref='questao', lazy=True, cascade="all, delete-orphan")
+
+class Opcao(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    questao_id = db.Column(db.Integer, db.ForeignKey('questao.id'), nullable=False)
+    texto = db.Column(db.Text, nullable=False)
+    eh_correta = db.Column(db.Boolean, nullable=False)
+
 
 class CadernoRespostas(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -54,9 +71,3 @@ class Resposta(db.Model):
     acertou = db.Column(db.Boolean, nullable=False, default=True)
     questao = db.relationship('Questao', backref='respostas', lazy=True)
 
-class Opcao(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    questao_id = db.Column(db.Integer, db.ForeignKey('questao.id'), nullable=False)
-    texto = db.Column(db.Text, nullable=False)
-    letra = db.Column(db.String(1), nullable=False)
-    eh_correta = db.Column(db.Boolean, nullable=False)

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Base</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/base.css') }}"
+    />
+    <!-- Bloco para os CSS específicos de cada página -->
+    {% block css %}{% endblock %}
+  </head>
+  <body>
+    <nav>
+      <div class="nav-header">
+        <div class="logo">
+          <h1 class="nav-title">Bem vindo, {{current_user.nome}}</h1>
+          <p class="nav-description">
+            Acesse seus testes criados ou crie um novo teste!
+          </p>
+        </div>
+        <div class="nav-right">
+          {% if current_user.eh_professor %}
+          <a href="{{ url_for('teacher.create_test') }}" class="btn-new-test">
+            <img
+              src="{{ url_for('static', filename='assets/plus.svg') }}"
+              alt=""
+            />
+            Novo Teste
+          </a>
+          {% endif %}
+          <div class="user">
+            <a href="{{ url_for('auth.logout') }}" class="btn-logout">
+              <img
+                src="{{ url_for('static', filename='assets/logout.svg') }}"
+                alt=""
+              />Log out
+            </a>
+          </div>
+        </div>
+      </div>
+      <ul class="nav-links">
+        <li class="nav-link active">Meus Testes</li>
+        <li class="nav-link">Rascunho</li>
+      </ul>
+    </nav>
+    <main>
+      <!-- Content goes Here -->
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %} {% endif %} {% endwith %} {% block content %}{% endblock %}
+    </main>
+
+    <script src="{{ url_for('static', filename='js/base.js') }}" defer></script>
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

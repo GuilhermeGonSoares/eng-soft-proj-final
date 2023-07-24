@@ -1,0 +1,46 @@
+{% extends 'base.html' %} {% block css %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/building.css') }}"
+/>
+{% endblock %} {% block content %}
+<div class="steps">
+  <div class="step">
+    <div class="step-number">1</div>
+    <div class="step-title">Configurações</div>
+  </div>
+  <img src="assets/arrow-right.svg" alt="" class="arrow" />
+  <div class="step active">
+    <div class="step-number">2</div>
+    <div class="step-title">Questões</div>
+  </div>
+  <img src="assets/arrow-right.svg" alt="" class="arrow" />
+</div>
+<div class="form-container">
+  <h3 class="form-title">Crie Questões para o seu Teste</h3>
+  <p class="form-description">Adiciona as questões para o teste</p>
+  <div class="questions"></div>
+  <div class="flex-group">
+    <button class="btn-new-test" id="addQuestion">
+      <img src="assets/plus.svg" alt="" />Nova Questão
+    </button>
+    <button class="btn-delete-question" id="deleteQuestion">
+      Excluir Questão
+    </button>
+  </div>
+  <div class="actions">
+    <a href="{{ url_for('teacher.delete_test', teste_id=teste_id) }}">
+      <button class="btn-outline">Cancelar</button>
+    </a>
+    <button class="btn-primary" id="saveAndContinue">Salvar e Continuar</button>
+  </div>
+</div>
+
+{% endblock%} {% block scripts %}
+<script>
+  var testeId = '{{ teste_id }}';
+  // ...
+  // O restante do seu código JavaScript aqui
+</script>
+<script src="{{ url_for('static', filename='js/building.js') }}" defer></script>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %} {% block content %}
+<form method="POST">
+  {{ form.hidden_tag() }} {% for subform, questao in
+  form.multipla_escolha.entries, questoes %} {% if questao.tipo ==
+  "multipla_escolha" %}
+  <div>
+    <h4>{{ questao.nome }}</h4>
+    <p>{{ questao.texto }}</p>
+    {{ subform.opcao.label }}<br />
+    {{ subform.opcao }}
+  </div>
+  {% endif %} {% endfor %} {% for subform, questao in
+  form.verdadeiro_falso.entries, questoes %} {% if questao.tipo ==
+  "verdadeiro_falso" %}
+  <div>
+    <h4>{{ questao.nome }}</h4>
+    <p>{{ questao.texto }}</p>
+    {{ subform.opcao.label }}<br />
+    {{ subform.opcao }}
+  </div>
+  {% endif %} {% endfor %} {% for subform, questao in form.discursiva.entries,
+  questoes %} {% if questao.tipo == "discursiva" %}
+  <div>
+    <h4>{{ questao.nome }}</h4>
+    <p>{{ questao.texto }}</p>
+    {{ subform.resposta.label }}<br />
+    {{ subform.resposta }}
+  </div>
+  {% endif %} {% endfor %} {{ form.submit() }}
+</form>
+{% endblock %}
