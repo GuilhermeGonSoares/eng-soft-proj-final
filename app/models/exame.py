@@ -1,6 +1,7 @@
 from app import db
 from enum import Enum
 from datetime import datetime, timedelta
+from .user import User
 
 class StatusTeste(Enum):
     PENDENTE = "pendente"
@@ -62,6 +63,7 @@ class CadernoRespostas(db.Model):
     nota = db.Column(db.Integer, nullable=False, default=0)
 
     respostas = db.relationship('Resposta', backref='caderno_respostas', lazy=True)
+    aluno = db.relationship(User, backref='caderno_respostas', lazy=True)
 
 class Resposta(db.Model):
     id = db.Column(db.Integer, primary_key=True)

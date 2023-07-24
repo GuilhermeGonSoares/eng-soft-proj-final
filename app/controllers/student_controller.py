@@ -1,10 +1,14 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, send_file
+from flask import Blueprint, render_template, request, redirect, url_for, flash, make_response
 from flask_login import current_user, login_required
 from ..models import *
 from ..forms import *
 from app import db
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter, landscape
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.units import inch
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from io import BytesIO
 
 bp = Blueprint('student', __name__)
 
@@ -74,49 +78,46 @@ def answer_test(teste_id):
         flash('Caderno resposta salvo com sucesso!', 'success')
         return redirect(url_for('student.index'))
 
-@bp.route('/relatorio/<int:teste_id>', methods=['GET', 'POST'])
+@bp.route('/relatorio/<int:teste_id>', methods=['GET'])
 @login_required
 def relatorio_teste(teste_id):
-    # Fetch the answer notebook for this test and student
     cadernoResposta = CadernoRespostas.query.filter_by(teste_id=teste_id, aluno_matricula=current_user.matricula).first()
-
-    # If no answer notebook exists, return an error
-    if not cadernoResposta:
-        flash('Não há respostas para este teste.', category='danger')
-        return redirect(url_for('student.index'))
-        
-    # Fetch the test
+    respostas = cadernoResposta.respostas
     teste = Teste.query.get_or_404(teste_id)
-    
-    # Fetch the questions for the test
-    questoes = teste.questoes
+    # Cria o documento PDF
+    buff = BytesIO()
+    doc = SimpleDocTemplate(buff, pagesize=landscape(letter))
+    style = getSampleStyleSheet()
+    data = [['Nome da questão', 'Pontuação da questão', 'Gabarito', 'Resposta do aluno', 'Correto?']]
+    aluno = []
+    for resposta in respostas:
+        aluno.append(resposta.caderno_respostas.aluno)
+        questao = resposta.questao
+        correto = 'Correto' if resposta.acertou else 'Incorreto'
+        
+        data.append([questao.nome, questao.pontuacao, questao.gabarito, resposta.resposta, correto])
+    table = Table(data)
+    table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('FONTSIZE', (0, 0), (-1, 0), 14),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+        ('TEXTCOLOR', (0, 1), (-1, -1), colors.black),
+        ('ALIGN', (0, 1), (-1, -1), 'CENTER'),
+        ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
+        ('FONTSIZE', (0, 1), (-1, -1), 12),
+        ('BOTTOMPADDING', (0, 1), (-1, -1), 6),
+    ]))
+    elements = []
+    elements.append(table)
+    doc.build(elements)
 
-    # Start generating the PDF
-    c = canvas.Canvas("relatorios/relatorio.pdf", pagesize=letter)
-    width, height = letter
-
-    # Add some custom text
-    c.drawString(100, height - 100, f"Relatório de teste para: {current_user.matricula}")
-    c.drawString(100, height - 120, f"Nome do teste: {teste.nome}")
-    c.drawString(100, height - 140, f"Nota final: {cadernoResposta.nota}")
-    
-    line_height = 150
-    for questao, resposta in zip(questoes, cadernoResposta.respostas):
-        line_height += 15
-        c.drawString(100, height - line_height, f"Nome da questão: {questao.nome}")
-        line_height += 15
-        c.drawString(100, height - line_height, f"Enunciado da questão: {questao.texto}")
-        line_height += 15
-        c.drawString(100, height - line_height, f"Pontuação da questão: {questao.pontuacao}")
-        line_height += 15
-        c.drawString(100, height - line_height, f"Gabarito da questão: {questao.gabarito}")
-        line_height += 15
-        c.drawString(100, height - line_height, f"Resposta do aluno: {resposta.resposta}")
-        line_height += 15
-        c.drawString(100, height - line_height, f"Acertou a questão: {'Sim' if resposta.acertou else 'Não'}")
-        line_height += 15
-
-    # Finish up the page and save it
-    c.save()
-
-    return send_file('relatorios/relatorio.pdf', as_attachment=True)
+    # Envia a resposta com o arquivo PDF
+    response = make_response(buff.getvalue())
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = f'attachment; filename=relatorio_{teste.nome}_{aluno[0].matricula}.pdf'
+    return response
+   

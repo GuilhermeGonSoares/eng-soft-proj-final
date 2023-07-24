@@ -17,22 +17,24 @@ steps.forEach((step, i) => {
   });
 });
 
+let questionCount = 0;
+
 let multipleChoice = `
 <div class="alternatives">
     <label for="alternative1" class="flex-group">
-        <input type="radio" name="correctAlternative" value="1" />
+        <input type="radio" name="correctAlternative-${questionCount}" value="1" />
         <input type="text" id="alternative1" name="alternative1" placeholder='Alternativa 1' class="alternative-field" />
     </label>
     <label for="alternative2" class="flex-group">
-        <input type="radio" name="correctAlternative" value="2" />
+        <input type="radio" name="correctAlternative-${questionCount} value="2" />
         <input type="text" id="alternative2" name="alternative2" placeholder='Alternativa 2' class="alternative-field" />
     </label>
     <label for="alternative3" class="flex-group">
-        <input type="radio" name="correctAlternative" value="3" />
+        <input type="radio" name="correctAlternative-${questionCount} value="3" />
         <input type="text" id="alternative3" name="alternative3" placeholder='Alternativa 3' class="alternative-field" />
     </label>
     <label for="alternative4" class="flex-group">
-        <input type="radio" name="correctAlternative" value="4" />
+        <input type="radio" name="correctAlternative-${questionCount} value="4" />
         <input type="text" id="alternative4" name="alternative4" placeholder='Alternativa 4' class="alternative-field" />
     </label>
 </div>
@@ -41,11 +43,11 @@ let multipleChoice = `
 let trueOrFalse = `
 <div class="alternatives">
     <label for="verdadeiro" class="flex-group">
-        <input type="radio" name="correctAlternative" value="1" />
+        <input type="radio" name="correctAlternative-${questionCount} value="1" />
         <input type="text" id="verdadeiro" name="verdadeiro" value="Verdadeiro" class="alternative-field" />
     </label>
     <label for="falso" class="flex-group">
-        <input type="radio" name="correctAlternative" value="2" />
+        <input type="radio" name="correctAlternative-${questionCount} value="2" />
         <input type="text" id="falso" name="falso" value="Falso" class="alternative-field" />
     </label>
 </div>
@@ -140,8 +142,6 @@ const question = `
               id="novaQuestao" />Nova Questão
           </button>
         </div>`;
-
-let questionCount = 0;
 
 const generateAlternatives = (type) => {
   switch (type) {
