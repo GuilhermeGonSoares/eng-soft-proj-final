@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Teste: {{ teste.nome }}</h1>
+    <form method="POST">
+        {% for questao in questoes %}
+            <fieldset>
+                <legend>{{ questao.nome }} (Pontuação: {{ questao.pontuacao }})</legend>
+                <p>{{ questao.texto }}</p>
+                {% if questao.tipo == "multipla_escolha" %}
+                    {% for opcao in questao.opcoes %}
+                        <div>
+                            <input type="radio" id="{{ opcao.id }}" name="{{ questao.id }}" value="{{ opcao.texto }}">
+                            <label for="{{ opcao.id }}">{{ opcao.texto }}</label>
+                        </div>
+                    {% endfor %}
+                {% elif questao.tipo == "verdadeiro_falso" %}
+                    <div>
+                        <input type="radio" id="{{ questao.id }}_true" name="{{ questao.id }}" value="Verdadeiro">
+                        <label for="{{ questao.id }}_true">Verdadeiro</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="{{ questao.id }}_false" name="{{ questao.id }}" value="Falso">
+                        <label for="{{ questao.id }}_false">Falso</label>
+                    </div>
+                {% elif questao.tipo == "discursiva" %}
+                    <input type="number" id="{{ questao.id }}" name="{{ questao.id }}">
+                {% endif %}
+            </fieldset>
+        {% endfor %}
+        <button class="btn-new-test" type="submit">Enviar respostas</button>
+    </form>
+{% endblock %}

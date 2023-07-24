@@ -1,31 +1,38 @@
-{% extends "base.html" %} {% block content %}
-<form method="POST">
-  {{ form.hidden_tag() }} {% for subform, questao in
-  form.multipla_escolha.entries, questoes %} {% if questao.tipo ==
-  "multipla_escolha" %}
-  <div>
-    <h4>{{ questao.nome }}</h4>
-    <p>{{ questao.texto }}</p>
-    {{ subform.opcao.label }}<br />
-    {{ subform.opcao }}
-  </div>
-  {% endif %} {% endfor %} {% for subform, questao in
-  form.verdadeiro_falso.entries, questoes %} {% if questao.tipo ==
-  "verdadeiro_falso" %}
-  <div>
-    <h4>{{ questao.nome }}</h4>
-    <p>{{ questao.texto }}</p>
-    {{ subform.opcao.label }}<br />
-    {{ subform.opcao }}
-  </div>
-  {% endif %} {% endfor %} {% for subform, questao in form.discursiva.entries,
-  questoes %} {% if questao.tipo == "discursiva" %}
-  <div>
-    <h4>{{ questao.nome }}</h4>
-    <p>{{ questao.texto }}</p>
-    {{ subform.resposta.label }}<br />
-    {{ subform.resposta }}
-  </div>
-  {% endif %} {% endfor %} {{ form.submit() }}
-</form>
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{{ teste.nome }}</h1>
+    <p>{{ teste.descricao }}</p>
+    <form method="post" action="{{ url_for('student.answer_test', teste_id=teste.id) }}">
+        {{ form.csrf_token }}
+        {% for questao in teste.questoes %}
+            <div>
+                <fieldset>
+                    <legend style="display: flex; gap: 5rem;">
+                        <h3>{{ questao.nome }}</h3>
+                        <p>Pontuação: {{ questao.pontuacao }}</p>
+                    </legend>
+                    <p>Enunciado: {{ questao.texto }}</p>
+                    {% if questao.tipo == 'multipla_escolha' %}
+                        {% for subfield in form['resposta_questao_' ~ questao.id] %}
+                            <label>
+                                {{ subfield }}
+                                {{ subfield.label.text }}
+                            </label><br>
+                        {% endfor %}
+                    {% elif questao.tipo == 'verdadeiro_falso' %}
+                        {% for subfield in form['resposta_questao_' ~ questao.id] %}
+                            <label>
+                                {{ subfield }}
+                                {{ subfield.label.text }}
+                            </label><br>
+                        {% endfor %}
+                    {% else %}
+                        {{ form['resposta_questao_' ~ questao.id] }}
+                    {% endif %}
+                </fieldset>
+            </div>
+        {% endfor %}
+        {{ form.submit() }}
+    </form>
 {% endblock %}

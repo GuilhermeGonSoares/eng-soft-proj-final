@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ teste.nome }}</h1>
+    <p>Descrição: {{ teste.descricao }}</p>
+
+    <table>
+        <tr>
+            <th>Nome da Questão</th>
+            <th>Enunciado da Questão</th>
+            <th>Pontuação da Questão</th>
+            <th>Gabarito da Questão</th>
+            <th>Resposta do Aluno</th>
+            <th>Acertou?</th>
+        </tr>
+        {% for questao, resposta in questoes_e_respostas %}
+        <tr>
+            <td>{{ questao.nome }}</td>
+            <td>{{ questao.texto }}</td>
+            <td>{{ questao.pontuacao }}</td>
+            <td>{{ questao.gabarito }}</td>
+            <td>{{ resposta.resposta }}</td>
+            <td>{{ "Sim" if resposta.acertou else "Não" }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

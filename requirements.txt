@@ -5,3 +5,4 @@ Flask-Login
 APScheduler
 Flask-WTF
 WTForms
+reportlab
