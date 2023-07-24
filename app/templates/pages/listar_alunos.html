@@ -1,0 +1,43 @@
+{% extends 'base.html' %} {% block css %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/teacher.css') }}" />
+{% endblock %} {% block content %}
+
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Matrícula</th>
+        <th>Nota</th>
+        <th>Caderno de Respostas</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for aluno, caderno_resposta in cadernos_resposta %}
+      <tr>
+        <td>{{ aluno.nome }}</td>
+        <td>{{ aluno.matricula }}</td>
+        <td>{% if caderno_resposta %} {{ caderno_resposta.nota }} {% else %} 0 {% endif %}</td>
+        <td>
+          {% if caderno_resposta %}
+          <a
+            href="{{ url_for('teacher.relatorio', matricula=aluno.matricula, teste_id=teste.id) }}"
+            class="btn-actions"
+            >Ver Caderno de Respostas</a
+          >
+          {% else %}
+          <span class="closed-tag">Nenhum caderno de respostas</span>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock%} {% block scripts %}
+<script
+  src="{{ url_for('static', filename='js/teacher.js') }}"
+  defer></script>
+{% endblock %}

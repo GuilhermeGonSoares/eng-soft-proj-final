@@ -1,8 +1,7 @@
 {% extends 'base.html' %} {% block css %}
 <link
   rel="stylesheet"
-  href="{{ url_for('static', filename='css/teacher.css') }}"
-/>
+  href="{{ url_for('static', filename='css/teacher.css') }}" />
 {% endblock %} {% block content %}
 
 <div class="table-container">
@@ -36,10 +35,17 @@
         </td>
         <td>{{ teste.questoes|length }}</td>
         <td>
-          <button class="btn-download">
-            <img src="../assets/download.svg" alt="" />
-            Baixar
-          </button>
+          {%if teste.status.value == "fechado"%}
+          <a href="{{ url_for('teacher.listar_alunos', teste_id=teste.id) }}">
+            <button class="btn-download">
+              <img
+                src="../assets/download.svg"
+                alt="" />Relatório
+            </button></a
+          >
+          {% else %}
+          <span class="closed-tag">Indisponível</span>
+          {% endif %}
         </td>
         <td>{{teste.nota}}</td>
         <td>
@@ -71,5 +77,7 @@
   </table>
 </div>
 {% endblock%} {% block scripts %}
-<script src="{{ url_for('static', filename='js/teacher.js') }}" defer></script>
+<script
+  src="{{ url_for('static', filename='js/teacher.js') }}"
+  defer></script>
 {% endblock %}

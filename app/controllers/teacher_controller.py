@@ -1,9 +1,16 @@
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for, make_response
 from flask_login import current_user, login_required
 from flask import request, abort
 from ..models import *
 from ..forms import TestForm
 from app import db
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter, landscape
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.units import inch
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
+from io import BytesIO
+
 
 bp = Blueprint('teacher', __name__)
 
@@ -114,53 +121,58 @@ def change_test_status(teste_id, new_status):
     return redirect(url_for('teacher.show'))
 
 
+@bp.route('/listar_alunos/<int:teste_id>', methods=['GET'])
+@login_required
+def listar_alunos(teste_id):
+    alunos = User.query.filter_by(eh_professor=False).all() 
+    teste = Teste.query.get_or_404(teste_id)
+    cadernos_resposta_teste = []
 
-# @bp.route('/teste', methods=['GET', 'POST'])
-# @login_required
-# def create():
-#     data = request.get_json()
-#     questions = data['questions']
-#     nome = data['nomeTeste']
-#     duracao = data['duracao']
+    for aluno in alunos:
+        caderno_resposta = CadernoRespostas.query.filter_by(aluno_matricula=aluno.matricula, teste_id=teste_id).first()
+        
+        cadernos_resposta_teste.append((aluno, caderno_resposta))
 
-#     if len(questions) == 0:
-#         abort(400, "A lista de perguntas está vazia.")
 
-#     teste = Teste(
-#         nome=nome,
-#         professor_matricula=current_user.matricula,
-#         duracao=duracao,
-#     )
+    return render_template('pages/listar_alunos.html', cadernos_resposta=cadernos_resposta_teste, teste=teste)
 
-#     db.session.add(teste)
 
-#     for question in questions:
-#         tipo = question['tipo']
-#         enunciado = question['enunciado']
-#         pontuacao = question['pontuacao']
 
-#         nova_questao = Questao(
-#             tipo=tipo,
-#             pontuacao=pontuacao,  # Substitua com a pontuação real da questão
-#             texto=enunciado,
-#             gabarito=question['resposta'],
-#             teste=teste,
-#         )
-#         if tipo == 'multipla_escolha':
-#             alternativas = question['alternativas']
-#             print(question['resposta'])
-#             choices = {0: 'A', 1: 'B', 2: 'C', 3: 'D'}
-#             for i, alternativa in enumerate(alternativas):
-#                 opcao = Opcao(
-#                     questao=nova_questao,
-#                     texto=alternativa,
-#                     eh_correta=(choices[i] == question['resposta']),
-#                     letra=choices[i]
-#                 )
-#                 db.session.add(opcao)
+@bp.route('/relatorio/teste/<int:teste_id>/aluno/<string:matricula>', methods=['GET'])
+@login_required
+def relatorio(teste_id, matricula):
+    # Buscar teste
+    teste = Teste.query.get(teste_id)
 
-#         db.session.add(nova_questao)
+    # Buscar caderno de respostas
+    caderno_respostas = CadernoRespostas.query.filter_by(teste_id=teste_id, aluno_matricula=matricula).first()
 
-#     db.session.commit()
+    # Cria o documento PDF
+    buff = BytesIO()
+    doc = SimpleDocTemplate(buff, pagesize=landscape(letter))
+    elements = []
 
-#     return redirect(url_for('teacher.show'))
+    # Cabeçalho do relatório
+    elements.append(Paragraph(f"Relatório do teste {teste.nome}", getSampleStyleSheet()["Heading1"]))
+
+    # Tabela com as questões e respostas
+    data = [['Questão', 'Resposta do aluno', 'Gabarito', 'Acertou', 'Pontuação']]
+
+    for resposta in caderno_respostas.respostas:
+        questao = resposta.questao
+        acertou = 'Sim' if resposta.acertou else 'Não'
+        data.append([questao.nome, resposta.resposta, questao.gabarito, acertou, questao.pontuacao])
+
+    table = Table(data)
+    elements.append(table)
+
+    # Adiciona a nota final
+    elements.append(Paragraph(f"Nota final: {caderno_respostas.nota}", getSampleStyleSheet()["Normal"]))
+
+    doc.build(elements)
+
+    # Envia a resposta com o arquivo PDF
+    response = make_response(buff.getvalue())
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = f'attachment; filename=relatorio_teste_{teste.nome}_aluno_{matricula}.pdf'
+    return response
