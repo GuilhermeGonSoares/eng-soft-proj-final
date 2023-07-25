@@ -57,7 +57,7 @@ O projeto conta com diversas telas que facilitam a interação dos usuários com
 ```shell
     python run.py
 ```
-5. Rodar o projeto no navegador utilizando a seguinte URL:
+5. Rodar o projeto no navegador utilizando a seguinte URL (substituir http://127.0.0.1:5000/ por):
 ```shell
     http://localhost:5000/
 ```
