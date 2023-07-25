@@ -10,7 +10,7 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import inch
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
 from io import BytesIO
-
+from datetime import timedelta, datetime
 
 bp = Blueprint('teacher', __name__)
 
@@ -31,7 +31,6 @@ def create_questions(teste_id):
     
     elif request.method == 'POST':
         questions = request.get_json()
-        print(questions)
         
         current_test = Teste.query.get(teste_id)
         nota = 0
@@ -89,6 +88,7 @@ def create_test():
             nota=0,  
             duracao=form.duracao.data,
             abertura=form.data.data,
+            fechamento=form.data.data + timedelta(minutes=form.duracao.data),
             descricao=form.descricao.data,
         )
         

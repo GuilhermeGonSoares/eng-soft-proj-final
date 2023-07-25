@@ -9,7 +9,8 @@
     <thead>
       <tr>
         <th>Nome</th>
-        <th>Data</th>
+        <th>Data da Abertura</th>
+        <th>Data do Fechamento</th>
         <th>Disciplina</th>
         <th>Status</th>
         <th>Num. Questões</th>
@@ -22,7 +23,8 @@
       {% for test in tests %}
       <tr>
         <td>{{ test.nome }}</td>
-        <td>{{ test.created_at.strftime('%d/%m/%Y') }}</td>
+        <td>{{ test.abertura.strftime('%d/%m/%Y %H:%M') }}</td>
+        <td>{{ test.fechamento.strftime('%d/%m/%Y %H:%M') }}</td>
         <td>Engenharia de Software</td>
         <td>
           <span class="{{ test.status.name.lower() }}-tag">
@@ -38,7 +40,7 @@
           {% if has_answered[loop.index0] %}
           <!-- Se o teste foi respondido ou está fechado, mostrar o botão Relatório -->
           <a href="{{ url_for('student.relatorio_teste', teste_id=test.id ) }}">
-            <button class="btn-report">
+            <button class="btn-new-test">
               <img src="../assets/report.svg" alt="" />
               Relatório
             </button>
@@ -46,7 +48,7 @@
           {% elif test.status.name == 'ABERTO' %}
           <!-- Se o teste ainda não foi respondido e está aberto, mostrar o botão Responder -->
           <a href="{{ url_for('student.answer_test', teste_id=test.id ) }}">
-            <button class="btn-answer">
+            <button class="btn-new-test">
               <img src="../assets/answer.svg" alt="" />
               Responder
             </button>

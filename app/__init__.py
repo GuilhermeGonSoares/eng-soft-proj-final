@@ -27,10 +27,11 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    from .models.exame import fechar_testes
+    from .models.exame import fechar_testes, abrir_testes
     
     scheduler = BackgroundScheduler()
     scheduler.add_job(func=fechar_testes, trigger="interval", minutes=1)
+    scheduler.add_job(func=abrir_testes, trigger="interval", minutes=1)
     scheduler.start()
 
     db.init_app(app)

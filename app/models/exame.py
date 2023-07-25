@@ -2,6 +2,7 @@ from app import db
 from enum import Enum
 from datetime import datetime, timedelta
 from .user import User
+import pytz
 
 class StatusTeste(Enum):
     PENDENTE = "pendente"
@@ -18,19 +19,36 @@ class Teste(db.Model):
     questoes = db.relationship('Questao', backref='teste', lazy=True, cascade="all, delete-orphan")
     status = db.Column(db.Enum(StatusTeste), default=StatusTeste.PENDENTE, nullable=False)
     abertura = db.Column(db.DateTime, nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    fechamento = db.Column(db.DateTime, nullable=False)
     caderno_respostas = db.relationship('CadernoRespostas', backref='testes', lazy=True)
     descricao = db.Column(db.Text, nullable=False)
 
 def fechar_testes():
+    saopaulo_tz = pytz.timezone('America/Sao_Paulo')
     from app import app
 
     with app.app_context():
+        utc_now = datetime.utcnow()
+        saopaulo = utc_now.replace(tzinfo=pytz.utc).astimezone(saopaulo_tz).replace(tzinfo=None)
         testes = Teste.query.filter_by(status=StatusTeste.ABERTO).all()
         for teste in testes:
-            if (datetime.utcnow() - teste.created_at) > timedelta(minutes=teste.duracao):
+            if saopaulo >= teste.fechamento:
                 teste.status = StatusTeste.FECHADO
                 db.session.commit()
+
+def abrir_testes():
+    saopaulo_tz = pytz.timezone('America/Sao_Paulo')
+    from app import app
+
+    with app.app_context():
+        utc_now = datetime.utcnow()
+        saopaulo = utc_now.replace(tzinfo=pytz.utc).astimezone(saopaulo_tz).replace(tzinfo=None)
+        testes = Teste.query.filter_by(status=StatusTeste.PENDENTE).all()
+        for teste in testes:
+           if saopaulo >= teste.abertura:
+                teste.status = StatusTeste.ABERTO
+                db.session.commit()
+
 
 class TipoQuestao(Enum):
     MULTIPLA_ESCOLHA = 'multipla_escolha'

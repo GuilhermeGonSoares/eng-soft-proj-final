@@ -44,11 +44,11 @@ let trueOrFalse = (questionCount) => `
 <div class="alternatives">
     <label for="verdadeiro-${questionCount}" class="flex-group">
         <input type="radio" name="correctAlternative-${questionCount}" value="Verdadeiro" />
-        <input type="text" id="verdadeiro-${questionCount}" name="verdadeiro-${questionCount}" value="Verdadeiro" class="alternative-field" />
+        <input disabled  type="text" id="verdadeiro-${questionCount}" name="verdadeiro-${questionCount}" value="Verdadeiro" class="alternative-field" />
     </label>
     <label for="falso-${questionCount}" class="flex-group">
         <input type="radio" name="correctAlternative-${questionCount}" value="Falso" />
-        <input type="text" id="falso-${questionCount}" name="falso-${questionCount}" value="Falso" class="alternative-field" />
+        <input disabled  type="text" id="falso-${questionCount}" name="falso-${questionCount}" value="Falso" class="alternative-field" />
     </label>
 </div>
 `;
@@ -177,7 +177,7 @@ document.getElementById('addQuestion').addEventListener('click', function (e) {
       <div class="form-group">
         <div class="input-container">
           <label for="nome${questionCount}" class="input-label">Nome da Questão <span class="red">*</span></label>
-          <input type="text" name="nome${questionCount}" id="nome${questionCount}" placeholder="Questão ${questionCount}" class="input-field" />
+          <input type="text" name="nome${questionCount}" id="nome${questionCount}" value="Questão ${questionCount}" class="input-field" />
         </div>
         <div class="input-container">
           <label for="materia${questionCount}" class="input-label">Valor da Questão <span class="red">*</span></label>
